@@ -13,9 +13,9 @@
 #include <fstream>
 #include <cstdlib>
 #include "binary_file_handler.h"
-#include "word_count.h"
 #include <typeinfo>
 #include "huffman_tree.h"
+#include "word_count.h"
 
 using namespace std;
 

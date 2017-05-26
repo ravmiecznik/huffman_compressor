@@ -85,7 +85,7 @@ void put_word_content_to_cout(uint8_t* elem, uint8_t size, bool new_line, bool h
 }
 
 
-WordFreqArray count_words(FileInRamObj* file, int word_size){
+WordFreqArray count_words(FileInRamObj* file, uint8_t word_size){
 	WordFreqArray w_array(word_size); //init WordFreqArray
 	Word wrd(word_size);
 	for(uint16_t i=0; i<file->size; i+=word_size){
@@ -93,6 +93,7 @@ WordFreqArray count_words(FileInRamObj* file, int word_size){
 		w_array.count_next_elem(wrd);
 	}
 	w_array.sort();
+
 	//print_word_freq_array(w_array);
 	return w_array;
 }

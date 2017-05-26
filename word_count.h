@@ -32,14 +32,6 @@ public:
 	}
 };
 
-
-
-//struct word_freq{
-//	uint8_t* w;
-//	uint32_t freq;
-//};
-
-
 void put_word_content_to_cout(word* elem);
 void put_word_content_to_cout(uint8_t* elem, uint8_t size);
 void put_word_content_to_cout(uint8_t* elem, uint8_t size, bool new_line=true, bool hex_format=false);
