@@ -4,9 +4,11 @@
  *  Created on: 19 maj 2017
  *      Author: miecznik
  */
+
 #include "word_count.h"
 #include <iomanip>
 #include <sstream>
+
 
 WordFreqArray::WordFreqArray(Word new_word): words_array(new_word.w_size) {
 	/*
@@ -35,6 +37,21 @@ bool WordFreqArray::count_next_elem(Word word_elem){
 	}
 
 	return true;
+}
+
+void WordFreqArray::sort(){
+	for(uint32_t i=0; i<freq_array.len; i++){
+		uint32_t min = freq_array[i];
+		uint32_t min_index = i;
+		for(uint32_t j=i; j<freq_array.len; j++){
+			if(freq_array[j] < min){
+				min = freq_array[j];
+				min_index = j;
+			}
+		}
+		freq_array.swap(i, min_index);
+		words_array.swap(i, min_index);
+	}
 }
 
 void put_word_content_to_cout(word* elem){
@@ -68,14 +85,16 @@ void put_word_content_to_cout(uint8_t* elem, uint8_t size, bool new_line, bool h
 }
 
 
-void count_words(FileInRamObj* file, uint8_t word_size){
+WordFreqArray count_words(FileInRamObj* file, int word_size){
 	WordFreqArray w_array(word_size); //init WordFreqArray
 	Word wrd(word_size);
 	for(uint16_t i=0; i<file->size; i+=word_size){
 		wrd = &file->content[i];
 		w_array.count_next_elem(wrd);
 	}
-	print_word_freq_array(w_array);
+	w_array.sort();
+	//print_word_freq_array(w_array);
+	return w_array;
 }
 
 void print_word_freq_array(WordFreqArray array){

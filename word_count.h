@@ -59,13 +59,14 @@ public:
 	WordFreqArray(uint8_t size);				//inits WordFreqArray with no elements, creates a pointer to array
 	bool count_next_elem(Word elem);		//will add or count a new word into array
 	uint32_t get_num_of_elems();
+	void sort();
 	void operator<(Word elem){
 		count_next_elem(elem);
 	}
 };
 
 void print_word_freq_array(WordFreqArray);
-void count_words(FileInRamObj* file, uint8_t word_size = 2);
+WordFreqArray count_words(FileInRamObj* file, uint8_t word_size = 2);
 
 
 

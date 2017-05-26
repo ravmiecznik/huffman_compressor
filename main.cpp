@@ -6,14 +6,16 @@
  */
 
 
+
+
 #include <stdint.h>
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include "binary_file_handler.h"
 #include "word_count.h"
-#include "array.h"
 #include <typeinfo>
+#include "huffman_tree.h"
 
 using namespace std;
 
@@ -22,13 +24,26 @@ char help[] = "Missing parameters.\n"
 		"\thuffmann_compressor file_path word_len";
 
 
+
 int main(int argc, char* argv[]) {
 	//char file_name[] = "/home/rafal/workspace_mars/huffman_compressor/Release/test.txt";
 	if(argc > 2){
 		char* file_name = argv[1];
 		int word_len = atoi(argv[2]);
-		FileInRamObj file_in_ram(file_name);
-		count_words(&file_in_ram, word_len);
+		FileInRamObj raw_file_to_compress(file_name);
+		WordFreqArray word_frequency_array = count_words(&raw_file_to_compress, word_len);
+	    Word array[word_frequency_array.words_array.len](word_len);
+	    for(uint32_t i=0; i<word_frequency_array.words_array.len; i++){
+	    	array[i] = Word(word_frequency_array.words_array[i].container, word_len);
+	    }
+	    uint32_t* freq = word_frequency_array.freq_array.array;
+	    uint32_t size = word_frequency_array.freq_array.len;
+	    compress_stats compressed_bytes = HuffmanCodes(array, freq, size);
+	    cout << "compressed bytes " << compressed_bytes.total_size << endl;
+	    cout << "max key len " << +compressed_bytes.max_dict_word_len << endl;
+	    uint64_t dict_size = ((word_len*8 + compressed_bytes.max_dict_word_len) * word_frequency_array.freq_array.len)/8;
+	    cout << "size after compression " << compressed_bytes.total_size + dict_size << endl;
+	    return 0;
 	}
 	else{
 		cout << help << endl;
