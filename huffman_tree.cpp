@@ -214,7 +214,7 @@ void printCodes(MinHeapNode* root, uint32_t arr[], uint32_t top, compress_stats*
 
 // The main function that builds a Huffman Tree and print codes by traversing
 // the built Huffman Tree
-compress_stats HuffmanCodes(Word data[], uint32_t freq[], uint32_t size)
+compress_stats generate_huffman_codes_for_array(Word data[], uint32_t freq[], uint32_t size)
 {
    //  Construct Huffman Tree
    MinHeapNode* root = buildHuffmanTree(data, freq, size);

@@ -32,13 +32,15 @@ int main(int argc, char* argv[]) {
 		int word_len = atoi(argv[2]);
 		FileInRamObj raw_file_to_compress(file_name);
 		WordFreqArray word_frequency_array = count_words(&raw_file_to_compress, word_len);
-	    Word array[word_frequency_array.words_array.len](word_len);
+	    Word word_array[word_frequency_array.words_array.len](word_len);
 	    for(uint32_t i=0; i<word_frequency_array.words_array.len; i++){
-	    	array[i] = Word(word_frequency_array.words_array[i].container, word_len);
+	    	word_array[i] = Word(word_frequency_array.words_array[i].container, word_len);
 	    }
-	    uint32_t* freq = word_frequency_array.freq_array.array;
-	    uint32_t size = word_frequency_array.freq_array.len;
-	    compress_stats compressed_bytes = HuffmanCodes(array, freq, size);
+	    uint32_t* freq_array = word_frequency_array.freq_array.array;
+	    uint32_t array_size = word_frequency_array.freq_array.len;
+	    compress_stats compressed_bytes = generate_huffman_codes_for_array(word_array, freq_array, array_size);
+
+	    //print stats for huffman codes
 	    cout << "compressed bytes " << compressed_bytes.total_size << endl;
 	    cout << "max key len " << +compressed_bytes.max_dict_word_len << endl;
 	    uint64_t dict_size = ((word_len*8 + compressed_bytes.max_dict_word_len) * word_frequency_array.freq_array.len)/8;

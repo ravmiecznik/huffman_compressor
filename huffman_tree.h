@@ -21,7 +21,7 @@ struct compress_stats{
 	uint8_t max_dict_word_len;
 };
 
-compress_stats HuffmanCodes(Word data[], uint32_t freq[], uint32_t size);
+compress_stats generate_huffman_codes_for_array(Word data[], uint32_t freq[], uint32_t size);
 
 
 
